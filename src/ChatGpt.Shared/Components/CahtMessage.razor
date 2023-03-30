@@ -5,40 +5,39 @@
 <div id="content">
     @if (Messages != null)
     {
-        @foreach (var item in Messages)
-        {
-            <MCard Class="message" Style="@(ChatGptOptions.Dark?"":"background-color: ghostwhite;")">
-                @if (item.ChatGpt)
-                {
-                    <MCardTitle>
-                        <MAvatar>
+        <MList>
+            @foreach (var item in Messages)
+            {
+
+                <MListItem>
+                    <MListItemAvatar>
+                        @if (item.ChatGpt)
+                        {
                             <MImage Src="https://blog-simple.oss-cn-shenzhen.aliyuncs.com/chatgpt.ico" Alt="Jack"></MImage>
-                        </MAvatar>
-                    </MCardTitle>
-                }
-                else
-                {
-                    <MCardTitle>
-                        <MAvatar>
-                            <MImage 
-                                Src="@(string.IsNullOrEmpty(ChatGptOptions?.Avatar) ? "https://blog-simple.oss-cn-shenzhen.aliyuncs.com/Avatar.jpg" : ChatGptOptions.Avatar)" Alt="Jack"></MImage>
-                        </MAvatar>
-                    </MCardTitle>
-                }
-                <MCardText>
-                    <MCard MinHeight="20" Class="container" Outlined>
-                        <MButton Height="20" Icon OnClick="async () => await OnCopy.InvokeAsync(item)" Class="top-button">
-                            <MIcon Small>mdi-content-copy</MIcon>
-                        </MButton>
-                        <MMarkdownIt Style="margin: 2px; min-height: 5px" Source="@item.Content" Class="markdown-parser__basic"/>
-                    </MCard>
-                </MCardText>
-            </MCard>
-        }
+                        }
+                        else
+                        {
+                            <MImage Src="@(string.IsNullOrEmpty(ChatGptOptions?.Avatar) ? "https://blog-simple.oss-cn-shenzhen.aliyuncs.com/Avatar.jpg" : ChatGptOptions.Avatar)" Alt="Jack"></MImage>
+                        }
+                    </MListItemAvatar>
+                    <MListItemContent>
+                        <div class="grey lighten-3 rounded-lg mono-font">
+                            <MMarkdownIt Class="markdown-parser__basic"
+                                 Style="margin: 1em; min-height: 5px; line-height:1.5em;"
+                                 Source="@item.Content" />
+                        </div>
+                    </MListItemContent>
+                </MListItem>
+            }
+        </MList>
     }
 </div>
 
 <style>
+    .mono-font {
+        font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+    }
+
     .m-navigation-drawer__content::-webkit-scrollbar {
         width: 0 !important;
     }
@@ -66,7 +65,7 @@
 
     .container {
         position: relative;
-        padding:5px !important;
+        padding: 5px !important;
     }
 
     .top-button {
